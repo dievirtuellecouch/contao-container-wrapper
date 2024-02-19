@@ -1,0 +1,10 @@
+{% if containerName is not defined %}
+    {% set containerName = '' %}
+{% endif %}
+{% set result = [containerName] %}
+{% if output is defined and output != constant('DVC\\ContainerWrapper\\Configuration\\ContentElementConfiguration::FIELD_OUTPUT_OPTION_PARENT') %}
+    {% set result = result|merge([output]) %}
+{% endif %}
+<span style="display: block; font-size: 0.875em; opacity: 0.5;">
+    {{ result|join(' / ') }}
+</span>

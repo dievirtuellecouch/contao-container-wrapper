@@ -1,0 +1,38 @@
+services:
+  _defaults:
+      autowire: true
+      autoconfigure: true
+      public: false
+
+  DVC\ContainerWrapper\Configuration\ContentElementConfiguration:
+    public: true
+
+  DVC\ContainerWrapper\Configuration\ContainerValueBag:
+    public: true
+
+  DVC\ContainerWrapper\Controller\ContentElement\StartWrapperController:
+
+  DVC\ContainerWrapper\Controller\ContentElement\EndWrapperController:
+
+  DVC\ContainerWrapper\Widget\Backend\ContainerWrapperDataWidget:
+
+  DVC\ContainerWrapper\Twig\ContainerExtension:
+
+  DVC\ContainerWrapper\Builder\TemplateBuilder:
+
+  DVC\ContainerWrapper\Twig\TemplateBuilderExtension:
+
+  DVC\ContainerWrapper\EventListener\LoadDataContainerListener:
+    autowire: true
+    autoconfigure: true
+
+  DVC\ContainerWrapper\EventListener\OnSubmitListener:
+
+  DVC\ContainerWrapper\EventListener\BackendAssetsListener:
+    tags:
+      - {
+          name: kernel.event_listener,
+          event: kernel.request
+      }
+
+  Twig\Extension\StringLoaderExtension:
