@@ -2,7 +2,7 @@
     "name": "dvc/contao-container-wrapper",
     "description": "Adds wrapper content elements with configurable containers and variants.",
     "type": "contao-bundle",
-    "version": "0.6.4",
+    "version": "0.6.5",
     "require": {
         "php": ">=8.1",
         "contao/core-bundle": "^4.13||^5.2||^5.3"
