@@ -10,6 +10,11 @@ class ContainerExtension extends AbstractExtension
 {
     const EXTENSION_NAMESPACE = 'containerWrapper';
 
+    public function __construct(
+        private ContentElementConfiguration $contentElementConfiguration,
+    ) {
+    }
+
     public function getFunctions()
     {
         return [
@@ -27,7 +32,7 @@ class ContainerExtension extends AbstractExtension
     public function makeContainerClass(array $context): string
     {
         $containerName = $context[ContentElementConfiguration::FIELD_CONTAINER_NAME];
-        $containerClass = ContentElementConfiguration::getClassNameForContainer($containerName);
+        $containerClass = $this->contentElementConfiguration->getClassNameForContainer($containerName);
 
         // Get all variants for the current container
         // using the naming scheme for variant fields.
@@ -82,7 +87,7 @@ class ContainerExtension extends AbstractExtension
     public function makeChildClass(array $context): string
     {
         $containerName = $context[ContentElementConfiguration::FIELD_CONTAINER_NAME];
-        $containerClass = ContentElementConfiguration::getClassNameForContainer($containerName);
+        $containerClass = $this->contentElementConfiguration->getClassNameForContainer($containerName);
         $output = $context[ContentElementConfiguration::FIELD_OUTPUT_NAME];
 
         if ($output == ContentElementConfiguration::FIELD_OUTPUT_OPTION_PARENT) {
