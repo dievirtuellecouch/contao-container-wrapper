@@ -12,16 +12,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 #[AsContentElement(
     type: self::TYPE_CONTAINER,
-    category: 'wrapper',
+    category: self::CATEGORY,
 )]
 #[AsContentElement(
     type: self::TYPE_GROUP,
-    category: 'wrapper',
+    category: self::CATEGORY,
 )]
 class StartWrapperController extends AbstractContentElementController
 {
     const TYPE_CONTAINER = 'container_wrapper_start';
     const TYPE_GROUP = 'group_wrapper_start';
+    const CATEGORY = 'wrapper';
 
     protected $scopeMatcher;
 
