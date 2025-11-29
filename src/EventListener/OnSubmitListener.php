@@ -14,19 +14,27 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class OnSubmitListener
 {
     private ContentElementConfiguration $contentElementConfiguration;
-    private Request $request;
+    private ?Request $request = null;
+    private RequestStack $requestStack;
     
     public function __construct(
         ContentElementConfiguration $contentElementConfiguration,
         RequestStack $requestStack,
     ) {
         $this->contentElementConfiguration = $contentElementConfiguration;
+        $this->requestStack = $requestStack;
         $this->request = $requestStack->getCurrentRequest();
     }
 
     #[AsCallback(table: 'tl_content', target: 'fields.dvcWrapperData.save', priority: 100)]
     public function onSave($value, $dataContainer)
     {
+        // Ensure a current request exists (e.g. avoid CLI null access)
+        $this->request = $this->requestStack->getCurrentRequest() ?? $this->request;
+
+        if (null === $this->request) {
+            return \json_encode(null);
+        }
         $containerGroup = ContentElementConfiguration::getContainerTypeFromDataContainer($dataContainer);
 
         if ($containerGroup === null) {

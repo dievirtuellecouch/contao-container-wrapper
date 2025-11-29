@@ -6,6 +6,9 @@ use Contao\DataContainer;
 use Contao\System;
 use DVC\ContainerWrapper\Configuration\ContainerValueBag;
 use DVC\ContainerWrapper\Controller\ContentElement\StartWrapperController;
+use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\Yaml\Exception\ParseException;
+use Symfony\Component\Yaml\Yaml;
 
 class ContentElementConfiguration
 {
@@ -19,11 +22,6 @@ class ContentElementConfiguration
         'checkbox',
         'select',
     ];
-
-    public function __construct(
-        private ?array $configuration,
-    ) {
-    }
 
     public function getFields(string $configurationGroup): array
     {
@@ -94,13 +92,18 @@ class ContentElementConfiguration
 
     public function getVariantFields($configurationGroup): array
     {
-        $container = $this->getConfigForGroupWithName($configurationGroup);
+        try {
+            $container = self::getConfigForGroupWithName($configurationGroup);
+        }
+        catch (\Exception $exception) {
+            throw $exception;
+        }
+
+        $result = [];
 
         if (empty($container)) {
             return [];
         }
-
-        $result = [];
 
         foreach ($container as $containerName => $containerConfig) {
             if (!\array_key_exists('variants', $containerConfig)) {
@@ -172,12 +175,13 @@ class ContentElementConfiguration
         return $result;
     }
 
-    public function getClassNameForContainer(string $containerName): ?string
+    public static function getClassNameForContainer(string $containerName): ?string
     {
-        $containers = $this->getConfig();
-        
-        if (empty($containers)) {
-            return null;
+        try {
+            $containers = self::getConfig();
+        }
+        catch (\Exception $exception) {
+            throw $exception;
         }
 
         $containers = \array_merge(...\array_map(
@@ -226,7 +230,7 @@ class ContentElementConfiguration
         ];
     }
 
-    public function getContainerNames(DataContainer $dataContainer): array
+    public static function getContainerNames(DataContainer $dataContainer): array
     {
         $configurationGroup = self::getContainerTypeFromDataContainer($dataContainer);
 
@@ -234,7 +238,12 @@ class ContentElementConfiguration
             return [];
         }
 
-        $container = $this->getConfigForGroupWithName($configurationGroup);
+        try {
+            $container = self::getConfigForGroupWithName($configurationGroup);
+        }
+        catch (\Exception $exception) {
+            throw $exception;
+        }
 
         if (empty($container)) {
             return [];
@@ -249,7 +258,7 @@ class ContentElementConfiguration
         return \array_combine($keys, $labels);
     }
 
-    public function getChildrenOfContainer(DataContainer $dataContainer): array
+    public static function getChildrenOfContainer(DataContainer $dataContainer): array
     {
         $configurationGroup = self::getContainerTypeFromDataContainer($dataContainer);
 
@@ -261,8 +270,12 @@ class ContentElementConfiguration
             self::FIELD_OUTPUT_OPTION_PARENT => 'Eltern-Element',
         ];
 
-        
-        $container = $this->getConfigForGroupWithName($configurationGroup);
+        try {
+            $container = self::getConfigForGroupWithName($configurationGroup);
+        }
+        catch (\Exception $exception) {
+            throw $exception;
+        }
 
         if (empty($container)) {
             return [];
@@ -305,19 +318,38 @@ class ContentElementConfiguration
         }
     }
 
-    private function getConfig(): ?array
+    /**
+     * @throws \Exception When configuration could not be read.
+     */
+    private static function getConfig(): array
     {
-        return $this->configuration;
+        $relativePathToFile = 'config/packages/dvc_container_wrapper.yaml';
+        $pathToConfig = \sprintf('%s/%s', self::getProjectDir(), $relativePathToFile);
+
+        try {
+            $config = Yaml::parseFile($pathToConfig);
+        }
+        catch (ParseException $exception) {
+            $message = \sprintf('Could not find or parse wrapper configuration. Please provide configuration file at the location "%s".', $relativePathToFile);
+            throw new \Exception($message);
+        }
+
+        return $config['dvc_container_wrapper'];
     }
 
-    private function getConfigForGroupWithName(string $configurationGroup): ?array
+    private static function getConfigForGroupWithName(string $configurationGroup): ?array
     {
-        $config = $this->getConfig();
+        $config = self::getConfig();
 
         if (!\array_key_exists($configurationGroup, $config)) {
-            return null;
+            throw new \Exception(\sprintf('Could not find configuration for group "%s". Please add it to the container wrapper configuration file.', $configurationGroup));
         }
 
         return $config[$configurationGroup];
+    }
+
+    private static function getProjectDir(): string
+    {
+        return System::getContainer()->getParameter('kernel.project_dir');
     }
 }

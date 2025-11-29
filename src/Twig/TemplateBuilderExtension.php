@@ -31,7 +31,8 @@ class TemplateBuilderExtension extends AbstractExtension
 
     public function makeContainer(Environment $env, ?string $containerName): TemplateWrapper
     {
-        $template = $this->templateBuilder->templateForContainer($containerName);
+        // Guard against null to satisfy strict types in PHP 8.3
+        $template = $this->templateBuilder->templateForContainer($containerName ?? '');
         return $env->createTemplate((string) $template);
     }
 }
