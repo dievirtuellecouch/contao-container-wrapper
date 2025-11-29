@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 )]
 class StartWrapperController extends AbstractContentElementController
 {
+    const CATEGORY = 'wrapper';
     const TYPE_CONTAINER = 'container_wrapper_start';
     const TYPE_GROUP = 'group_wrapper_start';
 
