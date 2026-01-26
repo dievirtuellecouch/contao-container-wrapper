@@ -1,6 +1,8 @@
 <?php
 
-namespace DVC\ContainerWrapper\Builder;
+declare(strict_types=1);
+
+namespace Dvc\ContaoContainerWrapperBundle\Builder;
 
 class TemplateBuilder
 {

@@ -1,14 +1,21 @@
 <?php
 
-namespace DVC\ContainerWrapper\Twig;
+declare(strict_types=1);
 
-use DVC\ContainerWrapper\Configuration\ContentElementConfiguration;
+namespace Dvc\ContaoContainerWrapperBundle\Twig;
+
+use Dvc\ContaoContainerWrapperBundle\Configuration\ContentElementConfiguration;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class ContainerExtension extends AbstractExtension
 {
     const EXTENSION_NAMESPACE = 'containerWrapper';
+
+    public function __construct(
+        private ContentElementConfiguration $contentElementConfiguration,
+    ) {
+    }
 
     public function getFunctions()
     {
@@ -27,7 +34,7 @@ class ContainerExtension extends AbstractExtension
     public function makeContainerClass(array $context): string
     {
         $containerName = $context[ContentElementConfiguration::FIELD_CONTAINER_NAME];
-        $containerClass = ContentElementConfiguration::getClassNameForContainer($containerName);
+        $containerClass = $this->contentElementConfiguration->getClassNameForContainer($containerName);
 
         // Get all variants for the current container
         // using the naming scheme for variant fields.
@@ -47,7 +54,7 @@ class ContainerExtension extends AbstractExtension
             ARRAY_FILTER_USE_BOTH
         );
 
-        // Append the variants’ values to the keys if
+        // Append the variants' values to the keys if
         // the variant is not boolean (e.g. select field).
         $effectiveVariants = [];
         \array_walk($activeVariants, function($value, $key) use (&$effectiveVariants) {
@@ -82,7 +89,7 @@ class ContainerExtension extends AbstractExtension
     public function makeChildClass(array $context): string
     {
         $containerName = $context[ContentElementConfiguration::FIELD_CONTAINER_NAME];
-        $containerClass = ContentElementConfiguration::getClassNameForContainer($containerName);
+        $containerClass = $this->contentElementConfiguration->getClassNameForContainer($containerName);
         $output = $context[ContentElementConfiguration::FIELD_OUTPUT_NAME];
 
         if ($output == ContentElementConfiguration::FIELD_OUTPUT_OPTION_PARENT) {

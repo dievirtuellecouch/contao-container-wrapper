@@ -1,6 +1,8 @@
 <?php
 
-namespace DVC\ContainerWrapper\Controller\ContentElement;
+declare(strict_types=1);
+
+namespace Dvc\ContaoContainerWrapperBundle\Controller\ContentElement;
 
 use Contao\ContentModel;
 use Contao\CoreBundle\Controller\ContentElement\AbstractContentElementController;
@@ -12,16 +14,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 #[AsContentElement(
     type: self::TYPE_CONTAINER,
-    category: 'wrapper',
+    category: self::CATEGORY,
 )]
 #[AsContentElement(
     type: self::TYPE_GROUP,
-    category: 'wrapper',
+    category: self::CATEGORY,
 )]
 class EndWrapperController extends AbstractContentElementController
 {
     const TYPE_CONTAINER = 'container_wrapper_end';
     const TYPE_GROUP = 'group_wrapper_end';
+    const CATEGORY = 'wrapper';
 
     protected $scopeMatcher;
 
@@ -40,6 +43,6 @@ class EndWrapperController extends AbstractContentElementController
             return new Response('');
         }
 
-        return $this->render('@Contao_ContainerWrapperBundle/wrapper_end.html.twig');
+        return $this->render('@Contao_DvcContaoContainerWrapperBundle/wrapper_end.html.twig');
     }
 }

@@ -1,6 +1,8 @@
 <?php
 
-namespace DVC\ContainerWrapper\DependencyInjection;
+declare(strict_types=1);
+
+namespace Dvc\ContaoContainerWrapperBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -16,6 +18,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->arrayNode('container')
                     ->normalizeKeys(false)
+                    ->useAttributeAsKey('name')
                     ->arrayPrototype()
                         ->children()
                             ->scalarNode('label')->end()
@@ -27,6 +30,7 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->arrayNode('groups')
                     ->normalizeKeys(false)
+                    ->useAttributeAsKey('name')
                     ->arrayPrototype()
                         ->children()
                             ->scalarNode('label')->end()

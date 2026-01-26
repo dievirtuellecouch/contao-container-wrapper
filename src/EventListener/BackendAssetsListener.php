@@ -1,6 +1,8 @@
 <?php
 
-namespace DVC\ContainerWrapper\EventListener;
+declare(strict_types=1);
+
+namespace Dvc\ContaoContainerWrapperBundle\EventListener;
 
 use Contao\CoreBundle\Routing\ScopeMatcher;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -22,6 +24,6 @@ class BackendAssetsListener
             return;
         }
 
-        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/containerwrapper/dependency.js|static|1';
+        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/dvccontaocontainerwrapper/dependency.js|static|1';
     }
 }

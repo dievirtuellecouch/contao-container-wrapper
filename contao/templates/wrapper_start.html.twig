@@ -1,0 +1,7 @@
+{% if output is defined %}
+    {% if output == 'parent' %}
+        <div class="{{ containerWrapper_containerClass(_context) }}">
+    {% else %}
+        <div class="{{ containerWrapper_childClass(_context) }}">
+    {% endif %}
+{% endif %}

@@ -4,31 +4,31 @@ services:
       autoconfigure: true
       public: false
 
-  DVC\ContainerWrapper\Configuration\ContentElementConfiguration:
+  Dvc\ContaoContainerWrapperBundle\Configuration\ContentElementConfiguration:
     public: true
 
-  DVC\ContainerWrapper\Configuration\ContainerValueBag:
+  Dvc\ContaoContainerWrapperBundle\Configuration\ContainerValueBag:
     public: true
 
-  DVC\ContainerWrapper\Controller\ContentElement\StartWrapperController:
+  Dvc\ContaoContainerWrapperBundle\Controller\ContentElement\StartWrapperController:
 
-  DVC\ContainerWrapper\Controller\ContentElement\EndWrapperController:
+  Dvc\ContaoContainerWrapperBundle\Controller\ContentElement\EndWrapperController:
 
-  DVC\ContainerWrapper\Widget\Backend\ContainerWrapperDataWidget:
+  Dvc\ContaoContainerWrapperBundle\Widget\Backend\ContainerDataWidget:
 
-  DVC\ContainerWrapper\Twig\ContainerExtension:
+  Dvc\ContaoContainerWrapperBundle\Twig\ContainerExtension:
 
-  DVC\ContainerWrapper\Builder\TemplateBuilder:
+  Dvc\ContaoContainerWrapperBundle\Builder\TemplateBuilder:
 
-  DVC\ContainerWrapper\Twig\TemplateBuilderExtension:
+  Dvc\ContaoContainerWrapperBundle\Twig\TemplateBuilderExtension:
 
-  DVC\ContainerWrapper\EventListener\LoadDataContainerListener:
+  Dvc\ContaoContainerWrapperBundle\EventListener\LoadDataContainerListener:
     autowire: true
     autoconfigure: true
 
-  DVC\ContainerWrapper\EventListener\OnSubmitListener:
+  Dvc\ContaoContainerWrapperBundle\EventListener\OnSubmitListener:
 
-  DVC\ContainerWrapper\EventListener\BackendAssetsListener:
+  Dvc\ContaoContainerWrapperBundle\EventListener\BackendAssetsListener:
     tags:
       - {
           name: kernel.event_listener,

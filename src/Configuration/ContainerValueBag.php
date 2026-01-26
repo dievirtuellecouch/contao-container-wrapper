@@ -1,6 +1,8 @@
 <?php
 
-namespace DVC\ContainerWrapper\Configuration;
+declare(strict_types=1);
+
+namespace Dvc\ContaoContainerWrapperBundle\Configuration;
 
 use Contao\ContentModel;
 
@@ -18,7 +20,7 @@ class ContainerValueBag
         try {
             $data = $element->dvcWrapperData;
             $data = \json_decode($data, true);
-            
+
             if (empty($data)) {
                 return null;
             }

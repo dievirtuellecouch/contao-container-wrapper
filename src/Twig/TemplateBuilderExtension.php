@@ -1,9 +1,10 @@
 <?php
 
-namespace DVC\ContainerWrapper\Twig;
+declare(strict_types=1);
 
-use DVC\ContainerWrapper\Configuration\ContentElementConfiguration;
-use DVC\ContainerWrapper\Builder\TemplateBuilder;
+namespace Dvc\ContaoContainerWrapperBundle\Twig;
+
+use Dvc\ContaoContainerWrapperBundle\Builder\TemplateBuilder;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 use Twig\Environment;

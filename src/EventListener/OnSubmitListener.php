@@ -1,21 +1,23 @@
 <?php
 
-namespace DVC\ContainerWrapper\EventListener;
+declare(strict_types=1);
+
+namespace Dvc\ContaoContainerWrapperBundle\EventListener;
 
 use Contao\CoreBundle\DependencyInjection\Attribute\AsCallback;
-use DVC\ContainerWrapper\Configuration\ContentElementConfiguration;
+use Dvc\ContaoContainerWrapperBundle\Configuration\ContentElementConfiguration;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Set the parent table for content
- * elements which are related to house items. 
+ * elements which are related to house items.
  */
 class OnSubmitListener
 {
     private ContentElementConfiguration $contentElementConfiguration;
     private Request $request;
-    
+
     public function __construct(
         ContentElementConfiguration $contentElementConfiguration,
         RequestStack $requestStack,
@@ -44,7 +46,7 @@ class OnSubmitListener
         $containerName = $data[ContentElementConfiguration::FIELD_CONTAINER_NAME];
 
         // Remove variant fields which are not
-        // associated with the current container. 
+        // associated with the current container.
         $data = \array_filter($data, function($key) use ($containerName) {
             if (!\str_starts_with($key, 'variant_')) {
                 return true;

@@ -22,7 +22,7 @@
             let dependencies = Array.from(field.classList).filter(
                 (cssClass) => cssClass.indexOf(CLASS_PREFIX) >= 0
             );
-            
+
             if (dependencies.length == 0) {
                 continue;
             }
@@ -35,7 +35,7 @@
 
     const init = function() {
         trigger = document.querySelector('[name="containerName"]');
-        
+
         if (!trigger) {
             return;
         }

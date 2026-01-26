@@ -1,6 +1,8 @@
 <?php
 
-namespace DVC\ContainerWrapper\Widget\Backend;
+declare(strict_types=1);
+
+namespace Dvc\ContaoContainerWrapperBundle\Widget\Backend;
 
 use Contao\Widget;
 
