@@ -1,8 +1,8 @@
 <?php
 
-use DVC\ContainerWrapper\Widget\Backend\ContainerDataWidget;
-use DVC\ContainerWrapper\Controller\ContentElement\EndWrapperController;
-use DVC\ContainerWrapper\Controller\ContentElement\StartWrapperController;
+use Dvc\ContaoContainerWrapperBundle\Widget\Backend\ContainerDataWidget;
+use Dvc\ContaoContainerWrapperBundle\Controller\ContentElement\EndWrapperController;
+use Dvc\ContaoContainerWrapperBundle\Controller\ContentElement\StartWrapperController;
 
 $GLOBALS['BE_FFL']['dvc_container_data'] = ContainerDataWidget::class;
 

@@ -19,15 +19,19 @@ class ContainerValueBag
 
         try {
             $data = $element->dvcWrapperData;
-            $data = \json_decode($data, true);
-
-            if (empty($data)) {
+            if (!\is_string($data) || '' === trim($data)) {
                 return null;
             }
 
-            return $data[$dataContainer->field];
+            $data = \json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+
+            if (!\is_array($data) || empty($data)) {
+                return null;
+            }
+
+            return $data[$dataContainer->field] ?? null;
         }
-        catch (\Exception $e) {
+        catch (\Throwable) {
             //
         }
 

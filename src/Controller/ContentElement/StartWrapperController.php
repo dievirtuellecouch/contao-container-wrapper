@@ -39,7 +39,19 @@ class StartWrapperController extends AbstractContentElementController
         Request $request,
     ): Response {
         $data = $model->dvcWrapperData;
-        $data = \json_decode($data, true);
+        $data = [];
+
+        if (\is_string($model->dvcWrapperData) && '' !== trim($model->dvcWrapperData)) {
+            try {
+                $decodedData = \json_decode($model->dvcWrapperData, true, 512, JSON_THROW_ON_ERROR);
+
+                if (\is_array($decodedData)) {
+                    $data = $decodedData;
+                }
+            } catch (\Throwable) {
+                $data = [];
+            }
+        }
 
         if ($this->scopeMatcher->isBackendRequest($request)) {
             return $this->render('@Contao_DvcContaoContainerWrapperBundle/be_wrapper_start.html.twig', $data ?: []);

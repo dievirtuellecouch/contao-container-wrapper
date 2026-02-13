@@ -1,7 +1,7 @@
 <?php
 
-use DVC\ContainerWrapper\Controller\ContentElement\StartWrapperController;
-use DVC\ContainerWrapper\Controller\ContentElement\EndWrapperController;
+use Dvc\ContaoContainerWrapperBundle\Controller\ContentElement\StartWrapperController;
+use Dvc\ContaoContainerWrapperBundle\Controller\ContentElement\EndWrapperController;
 
 $GLOBALS['TL_LANG']['CTE'][StartWrapperController::CATEGORY] = 'Wrapper';
 

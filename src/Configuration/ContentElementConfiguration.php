@@ -269,9 +269,19 @@ class ContentElementConfiguration
         }
 
         $customData = $dataContainer->activeRecord->dvcWrapperData;
-        $customData = \json_decode($customData);
+        $containerName = null;
 
-        $containerName = isset($customData->containerName) ? $customData->containerName : null;
+        if (\is_string($customData) && '' !== trim($customData)) {
+            try {
+                $decodedData = \json_decode($customData, true, 512, JSON_THROW_ON_ERROR);
+
+                if (\is_array($decodedData)) {
+                    $containerName = $decodedData[self::FIELD_CONTAINER_NAME] ?? null;
+                }
+            } catch (\Throwable) {
+                $containerName = null;
+            }
+        }
 
         if ($containerName === null) {
             return $defaultItems;
@@ -313,6 +323,10 @@ class ContentElementConfiguration
     private function getConfigForGroupWithName(string $configurationGroup): ?array
     {
         $config = $this->getConfig();
+
+        if (!\is_array($config)) {
+            return null;
+        }
 
         if (!\array_key_exists($configurationGroup, $config)) {
             return null;
