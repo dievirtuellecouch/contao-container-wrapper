@@ -35,6 +35,7 @@ class Configuration implements ConfigurationInterface
                         ->children()
                             ->scalarNode('label')->end()
                             ->scalarNode('class')->end()
+                            ->variableNode('children')->end()
                             ->variableNode('variants')->end()
                         ->end()
                     ->end()
