@@ -9,7 +9,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('container_wrapper');
 
@@ -35,7 +35,6 @@ class Configuration implements ConfigurationInterface
                         ->children()
                             ->scalarNode('label')->end()
                             ->scalarNode('class')->end()
-                            ->variableNode('children')->end()
                             ->variableNode('variants')->end()
                         ->end()
                     ->end()

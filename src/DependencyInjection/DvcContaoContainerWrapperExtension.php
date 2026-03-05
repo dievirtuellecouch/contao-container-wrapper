@@ -21,38 +21,16 @@ class DvcContaoContainerWrapperExtension extends Extension implements PrependExt
 
     public function prepend(ContainerBuilder $container): void
     {
-        $projectDir = (string) $container->getParameter('kernel.project_dir');
-        $configFiles = [
-            $projectDir . '/config/packages/dvc_container_wrapper.yaml',
-            $projectDir . '/config/packages/container_wrapper.yaml',
-            $projectDir . '/config/packages/dvc_container_wrapper.yml',
-            $projectDir . '/config/packages/container_wrapper.yml',
-        ];
+        // Load configuration from config/packages/dvc_container_wrapper.yaml
+        $configFile = $container->getParameter('kernel.project_dir') . '/config/packages/dvc_container_wrapper.yaml';
 
-        $configuration = [];
-
-        foreach ($configFiles as $configFile) {
-            if (!file_exists($configFile)) {
-                continue;
-            }
-
+        if (file_exists($configFile)) {
             $config = Yaml::parseFile($configFile);
+            $configuration = $config['container_wrapper'] ?? $config['dvc_container_wrapper'] ?? null;
 
-            if (!\is_array($config)) {
-                continue;
+            if (\is_array($configuration)) {
+                $container->prependExtensionConfig($this->getAlias(), $configuration);
             }
-
-            $fileConfig = $config['container_wrapper'] ?? $config['dvc_container_wrapper'] ?? null;
-
-            if (!\is_array($fileConfig)) {
-                continue;
-            }
-
-            $configuration = \array_replace_recursive($configuration, $fileConfig);
-        }
-
-        if ([] !== $configuration) {
-            $container->prependExtensionConfig($this->getAlias(), $configuration);
         }
     }
 
